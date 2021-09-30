@@ -1,0 +1,6 @@
+Project is using "Expo CLI" 
+-understand what that is
+
+Use 'expo start" to load local server
+
+Use 'expo install' to install additional React Native/Expo packages 
