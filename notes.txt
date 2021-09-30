@@ -4,3 +4,5 @@ Project is using "Expo CLI"
 Use 'expo start" to load local server
 
 Use 'expo install' to install additional React Native/Expo packages 
+
+React-navigation
