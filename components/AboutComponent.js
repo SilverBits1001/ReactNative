@@ -4,9 +4,10 @@ import { Card, ListItem } from 'react-native-elements'
 import { FlatList } from 'react-native-gesture-handler'
 import { connect } from 'react-redux'
 import { baseUrl } from '../shared/baseUrl'
+import Loading from './LoadingComponent'
 
 const mapStateToProps = state => {
-    return{
+    return {
         partners: state.partners
     }
 }
@@ -36,11 +37,32 @@ class AboutComponent extends Component {
                 <ListItem
                     title={item.name}
                     subtitle={item.description}
-                    leftAvatar={{ source: {uri: baseUrl + item.image} }}
+                    leftAvatar={{ source: { uri: baseUrl + item.image } }}
                 />)
         }
 
+        if (this.props.partners.isLoading) {
+            return (
+                <ScrollView>
+                    <Mission />
+                    <Card
+                        title='Community Partners'>
+                        <Loading />
+                    </Card>
+                </ScrollView>
+            );
+        }
+        if (this.props.partners.errMess) {
+            <ScrollView>
+                <Mission />
+                <Card
+                    title='Community Partners'>
+                    <Text>{this.props.partners.errMess}</Text>
+                </Card>
+            </ScrollView>
+        }
         return (
+
             <ScrollView>
                 <Mission />
                 <Card
@@ -56,4 +78,4 @@ class AboutComponent extends Component {
     }
 }
 
-export default connect(mapStateToProps)(AboutComponent) 
+export default connect(mapStateToProps)(AboutComponent)
