@@ -1,3 +1,5 @@
+--WEEK ONE--
+
 Project is using "Expo CLI" 
 -understand what that is
 
@@ -6,3 +8,46 @@ Use 'expo start" to load local server
 Use 'expo install' to install additional React Native/Expo packages 
 
 React-navigation
+
+flat list uses lazy loading
+flat list loads an array of items
+flat list is more 
+
+scroll view everything is loaded
+
+react native elements is pre styled components (similar to bootstrap)
+
+react navigation
+	stack navigator - navigation where we can nest our screens (has back button to go back in stack)
+	Drawer navigatorv - the side bar that slides to the left.
+	Bottom drawer -
+
+<Text> is always needed to display text
+
+dont style the actual component for where to place it, style the screen its going in.
+
+theres is a component folder and then a screen folder where screens are made to display the components
+navigators get their own folder as well
+
+
+Notes on state
+https://docs.google.com/document/d/1cRse5v8YQU-Z7AT1p9tdsJ7po1YpdWqxbcBJ7RmBGbI/edit?usp=sharing
+
+flatlist and layout notes
+https://docs.google.com/document/d/1nDJWS0o487oEf8jJ1m9AINBmW5EscA-i-UUBXLyL4Es/edit?usp=sharing
+
+jsx differences
+https://docs.google.com/document/d/1gW3nC7RXuWl4HzmlvXw5Vhq6UCAuxxFLL0W_0teMl7Y/edit?usp=sharing
+
+'flex:1' says to take up all of the available space
+
+flexbox is the focus for our syling our layouts
+
+use camelCase through out
+
+Practice layout
+
+further explanation on stackNavigators
+
+
+

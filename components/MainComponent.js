@@ -1,17 +1,30 @@
 import React, { Component } from "react";
 import Home from "./HomeComponent";
 import Directory from './DirectoryComponent';
-import { createStackNavigator } from "react-navigation-stack";
-import { View, Platform } from "react-native";
+import AboutComponent from "./AboutComponent";
+import ContactComponent from "./ContactComponent";
 import CampsiteInfo from "./CampsiteInfoComponent";
-import { createDrawerNavigator } from "react-navigation-drawer";
+import { createStackNavigator } from "react-navigation-stack";
+import { View, Platform, StyleSheet, Text, ScrollView, Image } from "react-native";
+import { createDrawerNavigator, DrawerItems } from "react-navigation-drawer";
 import { createAppContainer } from 'react-navigation';
 import Constants from "expo-constants";
-
+import { Icon } from "react-native-elements";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const DirectoryNavigator = createStackNavigator(
     {
-        Directory: { screen: Directory },
+        Directory: {
+            screen: Directory,
+            navigationOptions: ({ navigation }) => ({
+                headerLeft: <Icon
+                    name='list'
+                    type='font-awesome'
+                    iconStyle={styles.stackIcon}
+                    onPress={() => navigation.toggleDrawer()}
+                />
+            })
+        },
         CampsiteInfo: { screen: CampsiteInfo }
     },
     {
@@ -33,26 +46,156 @@ const HomeNavigator = createStackNavigator(
         Home: { screen: Home }
     },
     {
-        defaultNavigationOptions: {
+        defaultNavigationOptions: ({ navigation }) => ({
             headerStyle: {
                 backgroundColor: '#5637DD'
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
                 color: '#fff'
-            }
-        }
+            },
+            headerLeft: <Icon
+                name='home'
+                type='font-awesome'
+                iconStyle={styles.stackIcon}
+                onPress={() => navigation.toggleDrawer()}
+            />
+
+        })
     }
 
 )
 
-const MainNavigator = createDrawerNavigator(
+const AboutNavigator = createStackNavigator(
     {
-        Home: { screen: HomeNavigator },
-        Directory: { screen: DirectoryNavigator }
+        Home: { screen: AboutComponent }
     },
     {
-        drawerBackgroundColor: "#cec8ff"
+        defaultNavigationOptions: ({ navigation }) => ({
+            headerStyle: {
+                backgroundColor: '#5637DD'
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+                color: '#fff'
+            },
+            headerLeft: <Icon
+                name='info-circle'
+                type='font-awesome'
+                iconStyle={styles.stackIcon}
+                onPress={() => navigation.toggleDrawer()}
+            />
+
+        })
+    }
+
+)
+
+const ContactNavigator = createStackNavigator(
+    {
+        Home: { screen: ContactComponent }
+    },
+    {
+        defaultNavigationOptions: ({ navigation }) => ({
+            headerStyle: {
+                backgroundColor: '#5637DD'
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+                color: '#fff'
+            },
+            headerLeft: <Icon
+                name='address-card'
+                type='font-awesome'
+                iconStyle={styles.stackIcon}
+                onPress={() => navigation.toggleDrawer()}
+            />
+
+        })
+    }
+
+)
+
+const CustomDrawerContentComponent = (props) => {
+return(
+    <ScrollView>
+    <SafeAreaView
+        style={styles.container}
+        forceInset={{ top: 'always', horizontal: 'never' }}>
+        <View style={styles.drawerHeader}>
+            <View style={{ flex: 1 }}>
+                <Image
+                    source={require('./images/logo.png')}
+                    style={styles.drawerImage}
+                />
+            </View>
+            <View styles={{ flex: 2 }}>
+                <Text style={styles.drawerHeaderText}>NuCamp</Text>
+            </View>
+        </View>
+        <DrawerItems {...props} />
+
+    </SafeAreaView>
+</ScrollView>
+)
+}
+
+const MainNavigator = createDrawerNavigator(
+    {
+        Home: {
+            screen: HomeNavigator,
+            navigationOptions: {
+                drawerIcon: ({ tintColor }) => (
+                    <Icon
+                        name='home'
+                        type='font-awesome'
+                        color={tintColor}
+                    />
+                )
+            }
+        },
+        Directory: {
+            screen: DirectoryNavigator,
+            navigationOptions: {
+                drawerIcon: ({ tintColor }) => (
+                    <Icon
+                        name='list'
+                        type='font-awesome'
+                        color={tintColor}
+                    />
+                )
+            }
+        },
+        About: {
+            screen: AboutNavigator,
+            navigationOptions: {
+                drawerLabel: 'About Us',
+                drawerIcon: ({ tintColor }) => (
+                    <Icon
+                        name='info-circle'
+                        type='font-awesome'
+                        color={tintColor}
+                    />
+                )
+            }
+        },
+        Contact: {
+            screen: ContactNavigator,
+            navigationOptions: {
+                drawerLabel: 'Contact Us',
+                drawerIcon: ({ tintColor }) => (
+                    <Icon
+                        name='address-card'
+                        type='font-awesome'
+                        color={tintColor}
+                    />
+                )
+            }
+        }
+    },
+    {
+        drawerBackgroundColor: "#cec8ff",
+        contentComponent: CustomDrawerContentComponent
     }
 )
 
@@ -66,12 +209,42 @@ class Main extends Component {
             <View
                 style={{
                     flex: 1,
-                    paddingTop: Platform.OS === 'ios' ? 0 : Constants.statusBarHeight 
+                    paddingTop: Platform.OS === 'ios' ? 0 : Constants.statusBarHeight
                 }}>
                 <AppNavigator />
             </View>
         )
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    drawerHeader: {
+        backgroundColor: '#5637DD',
+        height: 140,
+        alignItems: 'center',
+        justifyContent: 'center',
+        flex: 1,
+        flexDirection: 'row'
+    },
+    drawerHeaderText: {
+        color: '#fff',
+        fontSize: 24,
+        fontWeight: 'bold'
+    },
+    drawerImage: {
+        margin: 10,
+        height: 60,
+        width: 60
+    },
+    stackIcon: {
+        marginLeft: 10,
+        color: '#fff',
+        fontSize: 24
+    }
+});
+
 
 export default Main;
