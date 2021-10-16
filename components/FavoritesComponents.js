@@ -7,6 +7,7 @@ import { baseUrl } from '../shared/baseUrl'
 import { SwipeRow } from 'react-native-swipe-list-view'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { deleteFavorite } from '../redux/ActionCreators'
+import * as Animatable from 'react-native-animatable'
 
 
 const mapStateToProps = state => {
@@ -34,25 +35,25 @@ class Favorites extends Component {
                     <View style={styles.deleteView}>
                         <TouchableOpacity
                             style={styles.deleteTouchable}
-                            onPress={() => 
-                            Alert.alert(
-                                'Delete Favorite?',
-                                'Are you sure you wish to delete the favorite campsite' + 
-                                item.name + '?',
-                                [
-                                    {
-                                        text:'Cancel',
-                                        onPress: ()=> console.log(item.name + 'Not Delete'),
-                                        style: 'cancel'
-                                    },
-                                    {
-                                        text:'OK',
-                                        onPress: ()=>this.props.deleteFavorite(item.id),
-                                        style: 'cancel'
-                                    },
-                                ],
-                                {cancelable: false}
-                            )}
+                            onPress={() =>
+                                Alert.alert(
+                                    'Delete Favorite?',
+                                    'Are you sure you wish to delete the favorite campsite' +
+                                    item.name + '?',
+                                    [
+                                        {
+                                            text: 'Cancel',
+                                            onPress: () => console.log(item.name + 'Not Delete'),
+                                            style: 'cancel'
+                                        },
+                                        {
+                                            text: 'OK',
+                                            onPress: () => this.props.deleteFavorite(item.id),
+                                            style: 'cancel'
+                                        },
+                                    ],
+                                    { cancelable: false }
+                                )}
                         >
                             <Text styles={styles.deleteText}>Delete</Text>
                         </TouchableOpacity>
@@ -81,13 +82,16 @@ class Favorites extends Component {
             )
         }
         return (
-            <FlatList
-                data={this.props.campsites.campsites.filter(
-                    campsite => this.props.favorites.includes(campsite.id)
-                )}
-                renderItem={renderFavoriteItem}
-                keyExtractor={item => item.id.toString()}
-            />
+            <Animatable.View animation='fadeInRightBig' duration={2000} >
+
+                <FlatList
+                    data={this.props.campsites.campsites.filter(
+                        campsite => this.props.favorites.includes(campsite.id)
+                    )}
+                    renderItem={renderFavoriteItem}
+                    keyExtractor={item => item.id.toString()}
+                />
+            </Animatable.View>
         )
     }
 }
