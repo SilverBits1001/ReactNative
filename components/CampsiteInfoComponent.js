@@ -24,17 +24,25 @@ const mapDispatchToProps = {
 
 function RenderCampsite({ campsite, favorite, markFavorite, onShowModal }) {
 
+    const view = React.createRef();
 
     const recognizeDrag = ({ dx }) => (dx < -200) ? true : false;
 
+    const recognizeComment = ({ dx }) => (dx > 200) ? true : false;
+
+
     const panResponder = PanResponder.create({
         onStartShouldSetPanResponder: () => true,
+        onPanResponderGrant: () => {
+            view.current.rubberBand(500)
+                .then(endState => console.log(endState.finished ? 'finished' : 'canceled'))
+        },
         onPanResponderEnd: (e, gestureState) => {
             console.log('pan responder end', gestureState);
             if (recognizeDrag(gestureState)) {
                 Alert.alert(
                     'Add Favorite',
-                    'Are you sure you wush to add ' + campsite.name + ' to favorite?',
+                    'Are you sure you wish to add ' + campsite.name + ' to favorite?',
                     [
                         {
                             text: 'Cancel',
@@ -50,16 +58,21 @@ function RenderCampsite({ campsite, favorite, markFavorite, onShowModal }) {
                     { cancelable: false }
                 )
             }
-            return true;
-        }
+            else if(recognizeComment(gestureState)){
+                onShowModal()
+            }
 
-    })
+                return true;
+            }
+
+        })
     if (campsite) {
         return (
             <Animatable.View
                 animation='fadeInDown'
                 duration={2000}
                 delay={1000}
+                ref={view}
                 {...panResponder.panHandlers}>
 
                 <Card
